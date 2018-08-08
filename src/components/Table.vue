@@ -2,10 +2,12 @@
   <div class="table">
     <div class="left">
       <div class="left-inner" ref="leftInner">
-        <FixedHeaderTable :list="list" :scrollTop="scrollTop" :scroll="false"></FixedHeaderTable>
+        <FixedHeaderTable :list="list" :scrollTop="scrollTop"></FixedHeaderTable>
       </div>
     </div>
-    <FixedHeaderTable class="main" ref="main" :list="list" @scroll="scroll"></FixedHeaderTable>
+    <div class="main">
+      <FixedHeaderTable class="main-inner" ref="main" :list="list" @scroll="scroll"></FixedHeaderTable>
+    </div>
   </div>
 </template>
 
@@ -36,7 +38,7 @@ const getName = () => {
   return names[n++]
 }
 
-for(var i=0;i<500;i++) {
+for(var i=0;i<10000;i++) {
   list.content.push([
     i,
     getName(),
@@ -93,8 +95,13 @@ export default {
 .main {
   position: absolute;
   left: 80px;
-  padding-left: -80px;
+  width: 100%;
+  height: 100%;
   z-index: 11;
+  overflow: hidden;
+}
+.main-inner {
+  margin-left: -80px;
 }
 
 .left-inner {
