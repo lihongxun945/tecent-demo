@@ -41,10 +41,13 @@ export default {
   mounted () {
     const mainContent = this.$refs.mainContent
     const self = this
-    mainContent.addEventListener('scroll', (e) => {
+    const trigger = (e) => {
       const top = e.currentTarget.scrollTop
       self.$emit('scroll', top)
-    })
+    }
+    mainContent.addEventListener('scroll', trigger)
+    mainContent.addEventListener('scrollend', trigger)
+    //mainContent.addEventListener('touchmove', trigger)
   },
   watch: {
     scrollTop (v) {
@@ -65,12 +68,15 @@ export default {
 
 .content-wrap-inner {
   position: absolute;
-  width: 600px;
+  width: 720px;
   height: 100%;
 }
 table {
-  td, tr {
+  border-collapse: collapse;
+  td, th {
     line-height: 32px;
+    border-spacing: 0;
+    border: 1px solid #ccc;
   }
 }
 .main-content {

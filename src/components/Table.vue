@@ -36,7 +36,7 @@ const getName = () => {
   return names[n++]
 }
 
-for(var i=0;i<9000;i++) {
+for(var i=0;i<500;i++) {
   list.content.push([
     i,
     getName(),
@@ -61,16 +61,10 @@ export default {
     }
   },
   mounted () {
-
-  //const mainContent = this.$refs.mainContent
-  //const fixedLeft = this.$refs.fixedLeft
-  //mainContent.addEventListener('scroll', (e) => {
-  //  const top = e.currentTarget.scrollTop
-  //  fixedLeft.scrollTop = top
-  //})
   },
   methods: {
     scroll (s) {
+      alert(s)
       this.scrollTop = s
     }
   }
@@ -91,10 +85,15 @@ export default {
   top: 0;
   bottom: 0;
   width: 80px;
-  z-index: 100;
+  z-index: 10;
   overflow: hidden;
   background-color: #f1f1f1;
   pointer-events: none;
+}
+
+.main {
+  position: absolute;
+  z-index: 1;
 }
 
 .left-inner {
@@ -102,6 +101,6 @@ export default {
   left: 0;
   top: 0;
   bottom: 0;
-  width: 600px;
+  width: 720px;
 }
 </style>
