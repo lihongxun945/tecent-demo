@@ -36,18 +36,26 @@ export default {
     },
     scrollTop: {
       default: 0
+    },
+    scroll: {
+      default: true
     }
   },
   mounted () {
     const mainContent = this.$refs.mainContent
     const self = this
-    const trigger = (e) => {
-      const top = e.currentTarget.scrollTop
+    const trigger = () => {
+      const top = self.$refs.mainContent.scrollTop
       self.$emit('scroll', top)
     }
-    mainContent.addEventListener('scroll', trigger)
-    mainContent.addEventListener('scrollend', trigger)
-    //mainContent.addEventListener('touchmove', trigger)
+
+    // QQ浏览器惯性滚动bug
+    if (!/QQ/.test(navigator.userAgent)) {
+      mainContent.addEventListener('scroll', trigger)
+      mainContent.addEventListener('scrollend', trigger)
+    } else {
+      mainContent.addEventListener('touchmove', trigger)
+    }
   },
   watch: {
     scrollTop (v) {

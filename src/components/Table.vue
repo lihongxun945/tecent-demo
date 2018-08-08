@@ -2,7 +2,7 @@
   <div class="table">
     <div class="left">
       <div class="left-inner" ref="leftInner">
-        <FixedHeaderTable :list="list" :scrollTop="scrollTop"></FixedHeaderTable>
+        <FixedHeaderTable :list="list" :scrollTop="scrollTop" :scroll="false"></FixedHeaderTable>
       </div>
     </div>
     <FixedHeaderTable class="main" ref="main" :list="list" @scroll="scroll"></FixedHeaderTable>
@@ -64,7 +64,6 @@ export default {
   },
   methods: {
     scroll (s) {
-      alert(s)
       this.scrollTop = s
     }
   }
@@ -85,7 +84,7 @@ export default {
   top: 0;
   bottom: 0;
   width: 80px;
-  z-index: 10;
+  z-index: 1;
   overflow: hidden;
   background-color: #f1f1f1;
   pointer-events: none;
@@ -93,7 +92,9 @@ export default {
 
 .main {
   position: absolute;
-  z-index: 1;
+  left: 80px;
+  padding-left: -80px;
+  z-index: 11;
 }
 
 .left-inner {
