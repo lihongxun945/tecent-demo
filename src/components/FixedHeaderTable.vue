@@ -13,7 +13,7 @@
       </div>
       <div class="main-content" ref="mainContent">
         <div v-for="(chunk, index) in chunks">
-          <table v-if="showChunk(index)">
+          <table v-if="!fake && showChunk(index)">
             <colgroup>
               <col width="80" v-for="h in list.headers">
             </colgroup>
@@ -23,7 +23,7 @@
               </tr>
             </tbody>
           </table>
-          <div v-if="!showChunk(index)" :style="{ height: (chunkLength*rowHeight+1)+'px', width: '100%' }">
+          <div v-if="fake || !showChunk(index)" :style="{ height: (chunkLength*rowHeight+1)+'px', width: '100%' }">
           </div>
         </div>
       </div>
@@ -43,11 +43,17 @@ export default {
     scrollTop: {
       default: 0
     },
+    scrollLeft: {
+      default: 0
+    },
     scroll: {
       default: true
     },
     chunkLength: {
       default: 200
+    },
+    fake: {
+      default: false
     }
   },
   data () {
@@ -58,25 +64,35 @@ export default {
   },
   mounted () {
     const mainContent = this.$refs.mainContent
+    const contentWrap = this.$refs.contentWrap
     const self = this
-    const trigger = () => {
-      const top = self.$refs.mainContent.scrollTop
-      self.$emit('scroll', top)
+    const scrollY = () => {
+      const top = mainContent.scrollTop
+      self.$emit('scrollY', top)
       this.innerScrollTop = top
     }
-
-    // QQ浏览器惯性滚动bug
-    if (!/QQ/.test(navigator.userAgent)) {
-      mainContent.addEventListener('scroll', trigger)
-      mainContent.addEventListener('scrollend', trigger)
-    } else {
-      mainContent.addEventListener('touchmove', trigger)
+    const scrollX = () => {
+      const left = contentWrap.scrollLeft
+      self.$emit('scrollX', left)
+      this.innerScrollTop = left
     }
-    console.log(this.chunks)
+
+    // QQ浏览器滚动bug
+    if (!/QQ/.test(navigator.userAgent)) {
+      mainContent.addEventListener('scroll', scrollY)
+      contentWrap.addEventListener('scroll', scrollX)
+    } else {
+      mainContent.addEventListener('touchmove', scrollY)
+      contentWrap.addEventListener('touchmove', scrollX)
+    }
   },
   watch: {
     scrollTop (v) {
       this.$refs.mainContent.scrollTop = v
+    },
+    scrollLeft (v) {
+      console.log(v)
+      this.$refs.contentWrap.scrollLeft = v
     }
   },
   computed: {
@@ -121,6 +137,7 @@ export default {
 table {
   border-collapse: collapse;
   border-spacing: 0px;
+  margin-top: -1px;
   td, th {
     line-height: 32px;
     border-spacing: 0;
@@ -129,7 +146,7 @@ table {
 }
 .main-content {
   position: absolute;
-  top: 32px;
+  top: 35px;
   bottom: 0;
   width: 100%;
   left: 0;

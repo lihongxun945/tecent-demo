@@ -6,13 +6,19 @@
       </div>
     </div>
     <div class="main">
-      <FixedHeaderTable class="main-inner" ref="main" :list="list" @scroll="scroll"></FixedHeaderTable>
+      <FixedHeaderTable class="main-inner" ref="main" :list="list" :scrollTop="scrollTop" :scrollLeft="scrollLeft"></FixedHeaderTable>
+    </div>
+    <div class="scrollHandler">
+        <FixedHeaderTable :list="list" @scrollX="scrollX" @scrollY="scrollY" :fake="true"></FixedHeaderTable>
     </div>
   </div>
 </template>
 
 <script>
 import FixedHeaderTable from './FixedHeaderTable.vue'
+
+//关于滚动的问题：如果两边联动，会由于设置 scrollTop 触发 scroll 事件而出现循环，并且，由于惯性滚动的存在，一个没滚动完 而被另一个设置，会出现抖动
+//所以目前是采用统一的一个透明层代理所有滚动，因而不会出现联动冲突
 export default {
   components: {
     FixedHeaderTable
@@ -25,14 +31,18 @@ export default {
   },
   data () {
     return {
-      scrollTop: 0
+      scrollTop: 0,
+      scrollLeft: 0
     }
   },
   mounted () {
   },
   methods: {
-    scroll (s) {
-      this.scrollTop = s
+    scrollX (x) {
+      this.scrollLeft = x
+    },
+    scrollY (y) {
+      this.scrollTop = y
     }
   }
 }
@@ -76,5 +86,11 @@ export default {
   top: 0;
   bottom: 0;
   width: 720px;
+}
+
+.scrollHandler {
+  .main;
+  left: 0;
+  opacity: 0;
 }
 </style>
