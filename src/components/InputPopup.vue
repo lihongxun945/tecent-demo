@@ -1,15 +1,17 @@
 <template>
-  <div class="popup" ref="popup">
-    <div class="header">
-      <input placeholder="请输入" ref="input" v-model="input"/>
-      <a href="#" class="cancel" @click="close">取消</a>
-    </div>
-    <div class="content" @touchmove="blur">
-      <div class="item" v-for="l in filtedList" @click="select(l)">
-        <span v-html="highlight(l)"></span>
+  <transition name="fade">
+    <div class="popup" ref="popup" v-show="show">
+      <div class="header">
+        <input placeholder="请输入" ref="input" v-model="input"/>
+        <a href="#" class="cancel" @click="close">取消</a>
+      </div>
+      <div class="content" @touchmove="blur">
+        <div class="item" v-for="l in filtedList" @click="select(l)">
+          <span v-html="highlight(l)"></span>
+        </div>
       </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <script>
@@ -54,18 +56,30 @@ export default {
   },
   methods: {
     open () {
-      //this.show = true // 这是一个异步操作，因此无法focus。ios 策略会组织不是直接由用户触发的focus操作.
-      this.$refs.popup.style.display = 'block' // 同步操作，因此没问题
+      this.show = true // 这是一个异步操作，因此无法focus。ios 策略会组织不是直接由用户触发的focus操作.
+      const popup = this.$refs.popup
+      const className = popup.className
+      popup.style.display = 'block' // 同步操作，强制显示
+      popup.className += ' fade-enter'
       this.$refs.input.focus()
+
+      this.$nextTick(() => {
+        popup.className += ' fade-enter-active'
+      })
+
+      setTimeout(() => {
+        popup.className = className
+      }, 500)
+
     },
     close () {
-      this.$refs.popup.style.display = 'none'
       this.show = false
     },
     select (l) {
       this.$emit('select', l)
       this.input = ''
       this.close()
+      this.blur()
     },
     blur () {
       this.$refs.input.blur()
@@ -98,8 +112,21 @@ export default {
   height: 100%;
   box-sizing: border-box;
   background-color: white;
-  display: none;
-  opacity: .1;
+  opacity: 1;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: all .3s;
+
+  .header {
+    transition: all .3s;
+  }
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
+  top: 30px;
+  .header {
+    top: 30px;
+  }
 }
 .header { 
   background-color: #f1f1f1;
