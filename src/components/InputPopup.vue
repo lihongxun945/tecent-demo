@@ -6,7 +6,7 @@
     </div>
     <div class="content" @touchmove="blur">
       <div class="item" v-for="l in filtedList" @click="select(l)">
-        {{l}}
+        <span v-html="highlight(l)"></span>
       </div>
     </div>
   </div>
@@ -14,6 +14,7 @@
 
 <script>
 
+// mock data
 const list = [
   '何炅',
   '谢啦',
@@ -68,6 +69,10 @@ export default {
     },
     blur () {
       this.$refs.input.blur()
+    },
+    highlight (t) {
+      if (!t) return t
+      return t.replace(this.input, '<b>'+this.input+'</b>')
     }
   },
   computed: {
@@ -78,7 +83,9 @@ export default {
         return d.indexOf(this.input) !== -1
       })
     }
-  }
+  },
+
+  
 }
 </script>
 
@@ -92,6 +99,7 @@ export default {
   box-sizing: border-box;
   background-color: white;
   display: none;
+  opacity: .1;
 }
 .header { 
   background-color: #f1f1f1;
@@ -111,6 +119,7 @@ input {
   -webkit-appearance: none;
   border: 1px solid #ccc;
   border-radius: 4px;
+  font-size: 16px;
 }
 .cancel {
   color: #1AAD19;
@@ -131,5 +140,11 @@ input {
   + .item {
     border-top: 1px solid #f1f1f1;
   }
+}
+</style>
+
+<style>
+.popup b {
+  color: red;
 }
 </style>

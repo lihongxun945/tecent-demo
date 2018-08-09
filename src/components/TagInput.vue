@@ -50,7 +50,7 @@ label {
   position: relative;
   border: 1px solid #ccc;
   border-radius: 3px;
-  width: 270px;
+  width: 280px;
   line-height: @height;
   height: @height;
   padding: 0 10px 0 5px;
@@ -73,6 +73,7 @@ label {
     background-color: #1AAD19;
     border-radius: 3px;
     color: white;
+    padding-left: 4px;
   }
 }
 
