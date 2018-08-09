@@ -74,7 +74,6 @@ export default {
     const scrollX = () => {
       const left = contentWrap.scrollLeft
       self.$emit('scrollX', left)
-      this.innerScrollTop = left
     }
 
     // QQ浏览器滚动bug
