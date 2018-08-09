@@ -13,7 +13,7 @@
       </div>
       <div class="main-content" ref="mainContent">
         <div v-for="(chunk, index) in chunks">
-          <table v-if="Math.abs(currentChunkIndex-index) <= 1">
+          <table v-if="showChunk(index)">
             <colgroup>
               <col width="80" v-for="h in list.headers">
             </colgroup>
@@ -23,7 +23,7 @@
               </tr>
             </tbody>
           </table>
-          <div v-if="Math.abs(currentChunkIndex-index) > 1" :style="{ height: (chunkLength*35+1)+'px', width: '100%' }">
+          <div v-if="!showChunk(index)" :style="{ height: (chunkLength*rowHeight+1)+'px', width: '100%' }">
           </div>
         </div>
       </div>
@@ -32,6 +32,8 @@
 </template>
 
 <script>
+const rowHeight = 35 // TODO: 根据DOM计算高度
+
 export default {
   props: {
     list: {
@@ -50,7 +52,8 @@ export default {
   },
   data () {
     return {
-      innerScrollTop: 0
+      innerScrollTop: 0,
+      rowHeight: rowHeight
     }
   },
   mounted () {
@@ -77,6 +80,8 @@ export default {
     }
   },
   computed: {
+    // 内容分段，以提升显示效果
+    // 每次只显示三段内容，其他全部以空DIV代替
     chunks () {
       const result = []
       const arr = this.list.content
@@ -86,8 +91,14 @@ export default {
       return result
     },
     currentChunkIndex () {
-      const r = parseInt(this.innerScrollTop / (this.chunkLength*35+1))
+      const r = parseInt(this.innerScrollTop / (this.chunkLength*this.rowHeight+1))
       return r
+    }
+  },
+  methods: {
+    // 只显示当前chunk和上下总共三个chunk的内容
+    showChunk (index) {
+      return Math.abs(this.currentChunkIndex-index) <= 1
     }
   }
 }
