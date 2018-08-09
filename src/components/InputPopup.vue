@@ -1,5 +1,5 @@
 <template>
-  <div class="popup" v-show="show">
+  <div class="popup" ref="popup">
     <div class="header">
       <input placeholder="请输入" ref="input" v-model="input"/>
       <a href="#" class="cancel" @click="close">取消</a>
@@ -54,10 +54,12 @@ export default {
   },
   methods: {
     open () {
-      this.show = true
+      //this.show = true // 这是一个异步操作，因此无法focus。ios 策略会组织不是直接由用户触发的focus操作.
+      this.$refs.popup.style.display = 'block' // 同步操作，因此没问题
       this.$refs.input.focus()
     },
     close () {
+      this.$refs.popup.style.display = 'none'
       this.show = false
     },
     select (l) {
@@ -90,6 +92,7 @@ export default {
   height: 100%;
   box-sizing: border-box;
   background-color: white;
+  display: none;
 }
 .header { 
   background-color: #f1f1f1;
