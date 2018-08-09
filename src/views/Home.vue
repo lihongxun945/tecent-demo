@@ -5,7 +5,13 @@
     </div>
     <ul>
       <li>
-        <router-link to="/table">表格</router-link>
+        <router-link :to="{ name: 'table', query: {count:500}}">表格 500 行</router-link>
+      </li>
+      <li>
+        <router-link :to="{ name: 'table', query: {count:5000}}">表格 5000 行</router-link>
+      </li>
+      <li>
+        <router-link :to="{ name: 'table', query: {count:50000}}">表格 50000 行</router-link>
       </li>
       <li>
         <router-link to="/input">名片输入</router-link>
