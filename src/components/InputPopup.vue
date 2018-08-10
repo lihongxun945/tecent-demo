@@ -195,7 +195,7 @@ input {
   text-decoration: none;
   margin-left: 8px;
   position: absolute;
-  right: 10px;
+  right: 15px;
   top: 12px;
 }
 
