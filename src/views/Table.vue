@@ -46,6 +46,7 @@ export default {
     const count=this.$route.query.count
 
     const list = this.list
+    list.content = []
     for(var i=0;i<count;i++) {
       list.content.push([
         i,
