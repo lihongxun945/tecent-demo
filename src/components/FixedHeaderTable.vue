@@ -50,7 +50,7 @@ export default {
       default: true
     },
     chunkLength: {
-      default: 200
+      default: 100
     },
     fake: {
       default: false
