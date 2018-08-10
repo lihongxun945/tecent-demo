@@ -154,18 +154,23 @@ export default {
 .input-wrap {
   margin-right: 50px;
   position: relative;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 4px 0;
+  background-color: white;
 }
 input {
-  height: @height;
-  line-height: @height;
+  height: 24px;;
+  line-height: 24px;
   width: 100%;
   -webkit-appearance: none;
-  border: 1px solid #ccc;
+  border: 0;
   border-radius: 4px;
   font-size: 16px;
   caret-color: #999;
   padding-left: 28px;
   box-sizing: border-box;
+  outline: none!important;
 }
 .icon-delete1 {
   font-size: 20px;

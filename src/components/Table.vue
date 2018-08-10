@@ -55,6 +55,7 @@ export default {
   height: 100%;
   left: 0;
   top: 0;
+  overflow: hidden;
 }
 .left {
   position: absolute;
