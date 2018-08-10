@@ -6,8 +6,13 @@
         <a href="#" class="cancel" @click="close">取消</a>
       </div>
       <div class="content" @touchmove="blur">
-        <div class="item" v-for="l in filtedList" @click="select(l)">
+        <a class="item" v-for="l in filtedList" @click="select(l)">
           <span v-html="highlight(l)"></span>
+        </a>
+        <div class="empty" v-if="filtedList.length === 0">
+          <div class="empty-inner">
+            没有找到<strong>"{{input}}"</strong>相关结果~
+          </div>
         </div>
       </div>
     </div>
@@ -147,6 +152,7 @@ input {
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
+  caret-color: #999;
 }
 .cancel {
   color: #1AAD19;
@@ -164,8 +170,32 @@ input {
 }
 .item {
   padding: 5px;
+  text-decoration: none;
+  color: inherit;
+  display: block;
   + .item {
     border-top: 1px solid #f1f1f1;
+  }
+
+  &:active {
+    background-color: #f1f1f1;
+  }
+}
+
+.empty {
+  height: 150px;
+  position: relative;
+  text-align: center;
+  color: #999;
+  .empty-inner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  strong {
+    color: #666;
   }
 }
 </style>

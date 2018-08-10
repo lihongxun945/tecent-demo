@@ -2,12 +2,12 @@
   <div class="tag-input">
     <div class="input">
       <div class="tags">
-        <div class="tag" v-for="(tag, i) in tags">
+        <div class="tag button" v-for="(tag, i) in tags">
           <span>{{tag}}</span>
-          <a class="delete" @click="del(i)">X</a>
+          <a class="delete" @click="del(i)"><span class="iconfont icon-delete"></span></a>
         </div>
       </div>
-      <a :class="'add ' + (tags.length >= limit ? ' disabled' : '')" @click="add">+</a>
+      <a :class="'button add ' + (tags.length >= limit ? ' disabled' : '')" @click="add">+</a>
     </div>
   </div>
 </template>
@@ -99,5 +99,18 @@ label {
   line-height: 24px;
   width: 24px;
   text-align: center;
+
+  .iconfont {
+    font-size: 20px;
+    line-height: 24px;
+    vertical-align: -2px;
+  }
+}
+
+.button {
+  background-color: #1AAD19;
+  &:active {
+    background-color: darken(#1AAD19, 10%);
+  }
 }
 </style>
