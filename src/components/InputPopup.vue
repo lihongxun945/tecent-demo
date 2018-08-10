@@ -2,7 +2,11 @@
   <transition name="fade">
     <div class="popup" ref="popup" v-show="show">
       <div class="header">
-        <input placeholder="请输入" ref="input" v-model="input"/>
+        <div class="input-wrap">
+          <i class="iconfont icon-search"></i>
+          <input placeholder="请输入" ref="input" v-model="input"/>
+          <a class="iconfont icon-delete1" v-show="!!input" @click="clear"></a>
+        </div>
         <a href="#" class="cancel" @click="close">取消</a>
       </div>
       <div class="content" @touchmove="blur">
@@ -92,6 +96,10 @@ export default {
     highlight (t) {
       if (!t) return t
       return t.replace(this.input, '<b>'+this.input+'</b>')
+    },
+    clear () {
+      this.input = ''
+      this.$refs.input.focus()
     }
   },
   computed: {
@@ -142,22 +150,48 @@ export default {
   right: 0;
   z-index: 1000
 }
-@height: 28px;
+@height: 32px;
+.input-wrap {
+  margin-right: 50px;
+  position: relative;
+}
 input {
   height: @height;
   line-height: @height;
-  width: 80%;
-  padding: 0 10px;
+  width: 100%;
   -webkit-appearance: none;
   border: 1px solid #ccc;
   border-radius: 4px;
   font-size: 16px;
   caret-color: #999;
+  padding-left: 28px;
+  box-sizing: border-box;
+}
+.icon-delete1 {
+  font-size: 20px;
+  position: absolute;
+  top: 4px;
+  right: 5px;
+  color: #888;
+
+  &:active {
+    color: #666;
+  }
+}
+.icon-search {
+  font-size: 20px;
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  color: #888;
 }
 .cancel {
   color: #1AAD19;
   text-decoration: none;
   margin-left: 8px;
+  position: absolute;
+  right: 10px;
+  top: 12px;
 }
 
 .content {
